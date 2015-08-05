@@ -1,5 +1,5 @@
 ! Compile xft: Attempt to find a visual with the given bit depth; option -depth.
-! URxvt*depth: bitdepth
+URxvt*depth: 32
 
 ! Compile xft: Turn on/off double-buffering for xft (default enabled).  On some card/driver combination enabling it slightly decreases
 ! URxvt*buffered: boolean
@@ -68,9 +68,10 @@ URxvt*colorn: 8
 ! URxvt*borderColor: colour
 
 ! Select the fonts to be used. This is a comma separated list of font names that are checked in order when trying to find glyphs for
-URxvt*font: xft:Bitstream Vera Sans Mono:pixelsize=12:antialias=true:hinting=true 
-
-URxvt*boldFont: xft:Bitstream Vera Sans Mono:bold:pixelsize=12:antialias=true:hinting=true
+URxvt.font:       xft:Inconsolata:pixelsize=12
+URxvt.boldFont:   xft:Inconsolata:bold:pixelsize=12
+urxvtq.font:      xft:Inconsolata:pixelsize=12
+urxvtq.boldFont:  xft:Inconsolata:bold:pixelsize=12
 
 ! 
 ! URxvt*italicFont: fontlist
@@ -91,7 +92,7 @@ URxvt*boldFont: xft:Bitstream Vera Sans Mono:bold:pixelsize=12:antialias=true:hi
 ! URxvt*mapAlert: boolean
 
 ! True: set the urgency hint for the wm on receipt of a bell character.  False: do not set the urgency hint [default].
-URxvt*urgentOnBell: false
+URxvt*urgentOnBell: true
 
 ! True: use visual bell on receipt of a bell character; option -vb.  False: no visual bell [default]; option +vb.
 ! URxvt*visualBell: boolean
@@ -136,7 +137,7 @@ URxvt*scrollBar: False
 ! URxvt*scrollTtyKeypress: boolean
 
 ! Save number lines in the scrollback buffer [default 64]. This resource is limited on most machines to 65535; option -sl.
-! URxvt*saveLines: number
+URxvt*saveLines: 4096
 
 ! Internal border of number pixels. This resource is limited to 100; option -b.
 URxvt*internalBorder: 0
@@ -253,7 +254,7 @@ URxvt*secondaryScroll: False
 ! URxvt*searchable-scrollback: keysym *DEPRECATED*
 
 ! Specifies the program to be started with a URL argument. Used by the "selection-popup" and "matcher" perl extensions.
-! URxvt*url-launcher: string
+URxvt*url-launcher: /usr/bin/google-chrome-beta
 
 ! Compile frills: Sets the WM_TRANSIENT_FOR property to the given window id.
 ! URxvt*transient-for: windowid
@@ -276,3 +277,4 @@ URxvt.perl-ext-common: default,tabbed,matcher,clipboard
 URxvt.iso14755: False
 URxvt.keysym.Shift-Control-C: perl:clipboard:copy
 URxvt.keysym.Shift-Control-V: perl:clipboard:paste
+Xft.antialias: true

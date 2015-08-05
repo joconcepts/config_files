@@ -92,29 +92,37 @@ bindsym $mod+a focus parent
 # focus the child container
 #bindsym $mod+d focus child
 
+set $ws1 "1: main"
+set $ws2 "2: mail"
+set $ws3 "3: irc/music"
+set $ws4 "4: misc"
+set $ws5 "5: misc"
+set $ws6 "6: misc"
+set $ws7 "7: misc"
+set $ws8 "8: office"
+
 # switch to workspace
-bindsym $mod+1 workspace number 1
-bindsym $mod+2 workspace number 2
-bindsym $mod+3 workspace number 3
-bindsym $mod+4 workspace number 4
-bindsym $mod+5 workspace number 5
-bindsym $mod+6 workspace number 6
-bindsym $mod+7 workspace number 7
-bindsym $mod+8 workspace number 8
-bindsym $mod+9 workspace number 9
-bindsym $mod+0 workspace number 10
+bindsym $mod+1 workspace $ws1 
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace number 1
-bindsym $mod+Shift+2 move container to workspace number 2
-bindsym $mod+Shift+3 move container to workspace number 3
-bindsym $mod+Shift+4 move container to workspace number 4
-bindsym $mod+Shift+5 move container to workspace number 5
-bindsym $mod+Shift+6 move container to workspace number 6
-bindsym $mod+Shift+7 move container to workspace number 7
-bindsym $mod+Shift+8 move container to workspace number 8
-bindsym $mod+Shift+9 move container to workspace number 9
-bindsym $mod+Shift+0 move container to workspace number 10
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+
+bindsym $mod+comma move workspace to output left
+bindsym $mod+period move workspace to output right
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -220,6 +228,24 @@ client.focused #003366 #003366 #88aacc
 client.unfocused #000055 #000033 #336688
 bindsym $mod+n exec i3-input -F 'rename workspace to "%s"' -P 'New name for this workspace: '
 
-#exec --no-startup-id "i3-msg 'workspace \"1: web\" output HDMI1; append_layout /home/jonas/.i3/workspace-1.json'"
-#exec --no-startup-id "i3-msg 'workspace \"2: mail\" output HDMI1; append_layout /home/jonas/.i3/workspace-2.json'"
-#exec --no-startup-id "i3-msg 'workspace \"3: irc-music\" output eDP1; append_layout /home/jonas/.i3/workspace-3.json'"
+new_window pixel 1
+for_window [class="^URxvt$"] border pixel 1
+for_window [title="Chrome$"] border pixel 1
+for_window [class="^KeePass2$"] floating enable
+
+assign [title="Chrome$"] $ws1
+assign [class="^Thunderbird$"] $ws2
+
+workspace $ws1 output HDMI1
+workspace $ws2 output HDMI1
+workspace $ws3 output eDP1
+
+exec --no-startup-id thunderbird
+exec --no-startup-id google-chrome-beta
+exec --no-startup-id i3-msg 'workspace $ws3; exec urxvt -e irssi; split h; exec urxvt -e cmus'
+
+# move focused window to scratchpad
+bindsym $mod+Shift+s move scratchpad
+
+# show first scratchpad window
+bindsym $mod+y scratchpad show

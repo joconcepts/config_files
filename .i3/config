@@ -128,31 +128,11 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-  output            HDMI1
   status_command    i3status
   position          top
   workspace_buttons yes
   tray_output       none
   
-  font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-  font pango: ProFontWindows 8
-
-  colors {
-    background #000000
-    statusline #ffffff
-
-    focused_workspace  #ffffff #285577
-    active_workspace   #ffffff #333333
-    inactive_workspace #888888 #222222
-    urgent_workspace   #ffffff #900000
-  }
-}
-bar {
-  output            eDP1
-  position          top
-  workspace_buttons yes
-  tray_output       none
-
   font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
   font pango: ProFontWindows 8
 
@@ -189,6 +169,9 @@ bindsym $mod+Pause mode "$mode_system"
 font pango: ProFontWindows 8
 
 # set audio hotkeys
+#bindsym XF86AudioRaiseVolume exec "pactl set-sink-mute 2 false ; pactl set-sink-volume 2 +5%"
+#bindsym XF86AudioLowerVolume exec "pactl set-sink-mute 2 false ; pactl set-sink-volume 2 -5%"
+#bindsym XF86AudioMute exec pactl set-sink-mute 2 toggle
 bindsym XF86AudioRaiseVolume exec amixer -q set Master 5+ unmute
 bindsym XF86AudioLowerVolume exec amixer -q set Master 5- unmute
 bindsym XF86AudioMute exec amixer -q set Master toggle
@@ -217,9 +200,29 @@ workspace $ws3 output eDP1
 exec --no-startup-id thunderbird
 exec --no-startup-id google-chrome-beta
 exec --no-startup-id i3-msg 'workspace $ws3; exec urxvt -e irssi; split h; exec urxvt -e cmus'
+exec --no-startup-id feh --bg-max /var/run/media/windows/Users/jonas/Pictures/Wallpaper/cool_horizon-1920x1080.jpg
 
 # move focused window to scratchpad
 bindsym $mod+Shift+s move scratchpad
 
 # show first scratchpad window
 bindsym $mod+y scratchpad show
+
+# display brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10
+bindsym XF86MonBrightnessUp exec xbacklight -inc 10
+
+# display control
+set $mode_display Display (d) single display, (m) single monitor, (D) duplicate, (p) display primary, (P) monitor primary
+mode "$mode_display" {
+  bindsym d exec --no-startup-id display_ctrl.sh single_dis
+  bindsym m exec --no-startup-id display_ctrl.sh single_mon
+  bindsym Shift+d exec --no-startup-id display_ctrl.sh duplicate
+  bindsym p exec --no-startup-id display_ctrl.sh dis_prim
+  bindsym Shift+p exec --no-startup-id display_ctrl.sh mon_prim
+
+  # back to normal: Enter or Escape
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+}
+bindsym $mod+Shift+p mode "$mode_display"

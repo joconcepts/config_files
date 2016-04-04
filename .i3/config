@@ -66,13 +66,13 @@ bindsym $mod+a focus parent
 
 # set workspace names
 set $ws1 "1: main"
-set $ws2 "2: mail"
-set $ws3 "3: irc/music"
+set $ws2 "2: irc/music"
+set $ws3 "3: misc"
 set $ws4 "4: misc"
 set $ws5 "5: misc"
 set $ws6 "6: misc"
 set $ws7 "7: misc"
-set $ws8 "8: office"
+set $ws8 "8: misc"
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1 
@@ -128,10 +128,11 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
+  #status_command    $HOME/conky_wrapper.sh
   status_command    i3status
   position          top
   workspace_buttons yes
-  tray_output       none
+  tray_output       primary
   
   font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
   font pango: ProFontWindows 8
@@ -169,12 +170,12 @@ bindsym $mod+Pause mode "$mode_system"
 font pango: ProFontWindows 8
 
 # set audio hotkeys
-#bindsym XF86AudioRaiseVolume exec "pactl set-sink-mute 2 false ; pactl set-sink-volume 2 +5%"
-#bindsym XF86AudioLowerVolume exec "pactl set-sink-mute 2 false ; pactl set-sink-volume 2 -5%"
-#bindsym XF86AudioMute exec pactl set-sink-mute 2 toggle
-bindsym XF86AudioRaiseVolume exec amixer -q set Master 5+ unmute
-bindsym XF86AudioLowerVolume exec amixer -q set Master 5- unmute
-bindsym XF86AudioMute exec amixer -q set Master toggle
+bindsym XF86AudioRaiseVolume exec pulse_volctrl.sh up
+bindsym XF86AudioLowerVolume exec pulse_volctrl.sh down
+bindsym XF86AudioMute exec pulse_volctrl.sh mute
+#bindsym XF86AudioRaiseVolume exec amixer -q set Master 5+ unmute
+#bindsym XF86AudioLowerVolume exec amixer -q set Master 5- unmute
+#bindsym XF86AudioMute exec amixer -q set Master toggle
 bindsym XF86AudioPlay exec cmus-remote -u
 bindsym XF86AudioNext exec cmus-remote -n
 bindsym XF86AudioPrev exec cmus-remote -r
@@ -186,20 +187,18 @@ client.unfocused #000055 #000033 #336688
 new_window pixel 1
 for_window [class="^URxvt$"] border 1pixel
 for_window [title="Chrome$"] border 1pixel
-for_window [class="^KeePass2$"] floating enable
+#for_window [class="^KeePass2$"] floating enable
 
-assign [title="Chrome$"] $ws1
-assign [class="^Thunderbird$"] $ws2
+#assign [title="Chrome$"] $ws1
 
 # move workspaces to displays
 workspace $ws1 output HDMI1
-workspace $ws2 output HDMI1
-workspace $ws3 output eDP1
+workspace $ws2 output eDP1
 
 # startup
-exec --no-startup-id thunderbird
+#exec --no-startup-id thunderbird
 exec --no-startup-id google-chrome-beta
-exec --no-startup-id i3-msg 'workspace $ws3; exec urxvt -e irssi; split h; exec urxvt -e cmus'
+exec --no-startup-id i3-msg 'workspace $ws2; exec urxvt -e irssi; split h; exec urxvt -e cmus'
 exec --no-startup-id feh --bg-max /var/run/media/windows/Users/jonas/Pictures/Wallpaper/cool_horizon-1920x1080.jpg
 
 # move focused window to scratchpad
